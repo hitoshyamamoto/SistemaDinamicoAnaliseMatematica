@@ -3,19 +3,18 @@ function calcularTransformadaLaplace
   tipoOperacao = input("Escolha uma das opções, por favor\n")
   
   if(tipoOperacao == 1)
-    
+    disp("Coloque os valores no numerador da função:\n")
+    disp("Por exemplo:\n(3*t + 2*exp(3*t))\nResposta: 2/(s-3) + 3/s^2\n")
+    syms F f s t
+    f = input("Sua função:\n")
+    F = laplace(f)
   endif
   if(tipoOperacao == 2)
-    s = tf('s')
     disp("Coloque os valores no numerador da função:\n")
-    disp("Por exemplo:\n[1 2 3] = s^2 + 2s + 3\n\n")
-    numerador = input("Numerador: ")
-    denominador = input("Denominador: ")
-    G = tf(numerador, denominador)
-    disp("Valores de: Zeros, Polos e Ganho do Sistema\n")
-    [zeros, polos, ganho_sistema] = zpkdata(G)
-    disp("\nFunção em Transformada Inversa:\n")
-    G = ilaplace(G, s, t)
+    disp("Por exemplo:\n1/((s+3)*(s-2))\nResposta: exp(2*t)/5 - 1/(5*exp(3*t))\n")
+    syms F f s t
+    F = input("Sua funcao:\n")
+    f = ilaplace(F)
   endif
 
 endfunction
