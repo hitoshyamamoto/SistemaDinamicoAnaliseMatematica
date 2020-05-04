@@ -4,16 +4,16 @@ function calcularTransformadaLaplace
   
   if(tipoOperacao == 1)
     disp("Coloque os valores no numerador da função:\n")
-    disp("[ Por exemplo: ]\n(3*t + 2*exp(3*t))\n[ Resposta: ]\n2/(s-3) + 3/s^2\n")
+    disp("[ Por exemplo: ]\n(3 + 2*exp(3*t))\n[ Resposta: ]\n(5*s - 9)/(s*(s-3))\n")
     syms F f s t
     f = input("Sua função:\n")
     F = laplace(f,t,s)
   endif
   if(tipoOperacao == 2)
     disp("Coloque os valores no numerador da função:\n")
-    disp("[ Por exemplo: ]\n1/((s+3)*(s-2))\n[ Resposta: ] exp(2*t)/5 - 1/(5*exp(3*t))\n")
-    syms F f s t
-    F = input("Sua funcao:\n")
+    disp("[ Por exemplo: ]\n1/(s*(s+3))\n[ Resposta: ]\n1/3 - (e^(-3*t))/3\n")
+    syms F f s t positive
+    F = input("Sua função:\n")
     f = ilaplace(F,s,t)
   endif
 
