@@ -24,17 +24,22 @@ function propriedadesFuncaoTransferencia
     endif
   endfor
   
-  #Análise do Ganho, se o sinal foi atenuado ou amplificado
-  if(ganho>1)
-    printf("[ K = %.5f ] Sinal Amplificado (K>1)\n",ganho)
-  elseif(ganho==1)
-    printf("[ K = %.5f ] Sinal Normal (K=1)\n",ganho)
-  elseif(ganho<1)
-    printf("[ K = %.5f ] Sinal Atenuado (K<1)\n",ganho)
-  endif
-  
   #Identificação de Wn(frequencia natural) e Z(fator de amortecimento)
   [frequenciaNatural, fatorAmortecimento] = damp(F)
+  
+  #Análise do Ganho, se o sinal foi atenuado ou amplificado
+  Ganho = 2*ganho/(frequenciaNatural.*frequenciaNatural)
+  
+  printf("ganho: %.5f\nGanho: %.5f\n",ganho,Ganho)
+  
+  printf("\n")
+  if(Ganho>1)
+    printf("[ K = %.5f ] Sinal Amplificado (K>1)\n",Ganho)
+  elseif(Ganho==1)
+    printf("[ K = %.5f ] Sinal Normal (K=1)\n",Ganho)
+  elseif(Ganho<1)
+    printf("[ K = %.5f ] Sinal Atenuado (K<1)\n",Ganho)
+  endif
   
   #Informação pelo Z, identificando caracteristica do amortecimento do sistema
   if(fatorAmortecimento == 0)
@@ -59,13 +64,13 @@ function propriedadesFuncaoTransferencia
   TA = constanteTempo.*4
   
   #Calculo do Mp(Valor do Pico)
-  Mp = ganho.*(1+exp(((-1).*pi.*fatorAmortecimento)./(sqrt(1-fatorAmortecimento.^2))))
+  Mp = Ganho.*(1+exp(((-1).*pi.*fatorAmortecimento)./(sqrt(1-fatorAmortecimento.^2))))
   
   #Calculo do Tp(Tempo do Pico)
-  Tp = pi./(sqrt(1-((fatorAmortecimento.^2).*frequenciaNatural)))
+  Tp = pi./(frequenciaNatural.*sqrt(1-(fatorAmortecimento.*fatorAmortecimento)))
   
   #Calculo do OvS(Overshoot)
-  OvS = ((Mp-ganho)./ganho).*100
+  OvS = ((Mp-Ganho)./Ganho).*100
   
   #Conjunto de prints
   printf("\n")
